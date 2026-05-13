@@ -6,6 +6,7 @@ Every source module returns a list of dicts with these keys:
   description_snippet, url, source, scraped_at
 """
 
+from __future__ import annotations
 import re
 import requests
 from datetime import datetime

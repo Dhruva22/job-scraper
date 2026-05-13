@@ -2,10 +2,10 @@
 # Each source module must expose a single function:
 #    scrape(queries, location, max_per_query, delay) -> list[dict]
 
-from sources.indeed import scrape as scrape_indeed
+from sources.remoteok import scrape as scrape_remoteok
 from sources.glassdoor import scrape as scrape_glassdoor
 
 SOURCES = {
-    "indeed": scrape_indeed,
+    "remoteok": scrape_remoteok,
     "glassdoor": scrape_glassdoor,
 }

@@ -4,7 +4,7 @@ sources/indeed.py — Scrape job listings from Indeed's public RSS feed.
 Indeed exposes RSS at https://www.indeed.com/rss with no auth required.
 Feed caps at 25 results per request; we search once per query string.
 """
-
+from __future__ import annotations
 import time
 import xml.etree.ElementTree as ET
 import requests
@@ -54,30 +54,30 @@ def _parse(xml_text: str) -> list[dict]:
             source=SOURCE_NAME,
         ))
 
-        return jobs
+    return jobs
     
-    def scrape(
+def scrape(
             queries: list[str],
             location: str = "Remote",
             max_per_query: int = 25,
             delay: float = 2.0,
-    ) -> list[dict]:
-        all_jobs: list[dict] = []
-        seen: set[str] = set()
+) -> list[dict]:
+    all_jobs: list[dict] = []
+    seen: set[str] = set()
 
-        for query in queries:
-            print(f"   [Indeed] '{query}' in '{location}' ...")
-            url = _build_url(query, location, min(max_per_query, 25))
-            text = fetch(url)
+    for query in queries:
+        print(f"   [Indeed] '{query}' in '{location}' ...")
+        url = _build_url(query, location, min(max_per_query, 25))
+        text = fetch(url)
 
-            if text:
-                for job in _parse(text):
-                    if job["url"] not in seen:
-                        seen.add(job["url"])
-                        all_jobs.append(job)
+        if text:
+            for job in _parse(text):
+                if job["url"] not in seen:
+                    seen.add(job["url"])
+                    all_jobs.append(job)
 
 
-            print(f"               -> {len(all_jobs)} unique listings so far")
-            time.sleep(delay)
+        print(f"               -> {len(all_jobs)} unique listings so far")
+        time.sleep(delay)
 
-        return all_jobs
+    return all_jobs

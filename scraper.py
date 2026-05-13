@@ -6,6 +6,7 @@ This module calls whichever sources the user selects and merges the results,
 deduplicating by URL across all sources.
 """
 
+from __future__ import annotations
 from sources import SOURCES
 
 def scrape_all(
@@ -24,7 +25,7 @@ def scrape_all(
         max_per_query: Max results per query per source.
         delay:         Seconds to wait between requests.
         sources:       Which sources to use. Defaults to all available.
-                       Options: "indeed", "glassdoor", LinkedIn
+                       Options: "remoteok", "glassdoor"
  
     Returns:
         Deduplicated, merged list of job dicts sorted by source then date.

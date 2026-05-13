@@ -8,7 +8,7 @@ Note: Glassdoor's RSS is less structured than Indeed's - company and
 location are often embedded in the description rather tahn separate fields,
 so we extract what we can and fall back to "N/A" gracefully.
 """
-
+from __future__ import annotations
 import time
 import re
 import xml.etree.ElementTree as ET
@@ -85,30 +85,30 @@ def _parse(xml_text: str) -> list[dict]:
             source=SOURCE_NAME,
         ))
 
-        return jobs
+    return jobs
     
-    def scrape(
-            queries: list[str],
-            location: str = "Remote",
-            max_per_query: int = 25,
-            delay: float = 2.0,
-    ) -> list[dict]:
-        all_jobs: list[dict] = []
-        seen: set[str] = set()
+def scrape(
+    queries: list[str],
+    location: str = "Remote",
+    max_per_query: int = 25,
+    delay: float = 2.0,
+) -> list[dict]:
+    all_jobs: list[dict] = []
+    seen: set[str] = set()
 
-        for query in queries:
-            print(f"   [Glassdoor] '{query}' in '{location}' ...")
-            url = _build_url(query, location, min(max_per_query, 25))
-            text = fetch(url)
+    for query in queries:
+        print(f"   [Glassdoor] '{query}' in '{location}' ...")
+        url = _build_url(query, location, min(max_per_query, 25))
+        text = fetch(url)
 
-            if text:
-                for job in _parse(text):
-                    if job["url"] not in seen:
-                        seen.add(job["url"])
-                        all_jobs.append(job)
+        if text:
+            for job in _parse(text):
+                if job["url"] not in seen:
+                    seen.add(job["url"])
+                    all_jobs.append(job)
 
 
-            print(f"               -> {len(all_jobs)} unique listings so far")
-            time.sleep(delay)
+        print(f"               -> {len(all_jobs)} unique listings so far")
+        time.sleep(delay)
 
-        return all_jobs
+    return all_jobs

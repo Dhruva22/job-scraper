@@ -2,28 +2,28 @@
 utils.py -- Save, filter, and display scraped job listings.
 """
 
+from __future__ import annotations
 import csv
 import json
 from pathlib import Path
 from datetime import datetime
 
 def save_to_csv(jobs: list[dict], filepath: str = "jobs.csv") -> Path:
-    """Write job listings to a CSV file"""
- 
+    """Write job listings to a CSV file."""
     path = Path(filepath)
-
+ 
     if not jobs:
         print("[utils] No jobs to save.")
         return path
-    
+ 
     fieldnames = list(jobs[0].keys())
-
+ 
     with open(path, "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
-        writer.writerow(jobs)
-
-    print(f"[utils] Saved {len(jobs)} jobs -> {path.resolve()}")
+        writer.writerows(jobs)
+ 
+    print(f"[utils] Saved {len(jobs)} jobs → {path.resolve()}")
     return path
 
 def save_to_json(jobs: list[dict], filepath: str = "jobs.json") -> Path:
