@@ -33,17 +33,17 @@ python3 main.py
 ## Usage
 
 ```bash
-# Scrape both Indeed and Glassdoor (default)
+# Scrape both RemoteOk and Glassdoor (default)
 python3 main.py
 
 # Only Indeed
-python3 main.py --sources indeed
+python3 main.py --sources remoteok
 
 # Only Glassdoor
 python3 main.py --sources glassdoor
 
 # Both, specific city
-python3 main.py --sources indeed glassdoor --location "Toronto, ON"
+python3 main.py --sources remoteok glassdoor --location "Toronto, ON"
 
 # Filter: must mention python or fastapi, exclude intern/junior
 python3 main.py --include python fastapi --exclude intern junior "entry level"
@@ -88,7 +88,7 @@ job-scraper/
 ├── sources/
 │   ├── __init__.py      # Source registry
 │   ├── base.py          # Shared HTTP helpers + job schema
-│   ├── indeed.py        # Indeed RSS scraper
+│   ├── remoteok.py        # Indeed RSS scraper
 │   └── glassdoor.py     # Glassdoor RSS scraper
 ├── requirements.txt
 ├── .gitignore
@@ -97,7 +97,7 @@ job-scraper/
 
 ## How it works
 
-Both Indeed and Glassdoor expose **public RSS feeds** for job searches — no scraping of HTML, no headless browser, no API key. This tool builds the right RSS URL per source, fetches the XML, parses it with Python's built-in `xml.etree.ElementTree`, deduplicates across sources by URL, and writes clean structured data to disk.
+Both RemoteOk and Glassdoor expose **public RSS feeds** for job searches — no scraping of HTML, no headless browser, no API key. This tool builds the right RSS URL per source, fetches the XML, parses it with Python's built-in `xml.etree.ElementTree`, deduplicates across sources by URL, and writes clean structured data to disk.
 
 Adding a new source is one file in `sources/` plus one line in `sources/__init__.py`.
 
